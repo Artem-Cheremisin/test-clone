@@ -1,0 +1,41 @@
+def GIT_REPO = 'git@github.com:dawn-foods-digital/config-maps.git'
+pipeline{
+    agent{
+        label "master"
+    }
+    environment {
+        deployment = 'b2b-sap-adapter'
+    }
+    stages{
+        stage('Checkout configmaps repo') {
+            steps {
+                script{
+                    checkout changelog: false, poll: false, 
+                    scm: [$class: 'GitSCM', 
+                        branches: [
+                            [name: '*/master']
+                        ], 
+                        doGenerateSubmoduleConfigurations: false,
+                        extensions:[
+                            [$class: 'SubmoduleOption', 
+                                disableSubmodules: false, 
+                                parentCredentials: true, 
+                                recursiveSubmodules: false, 
+                                reference: '', 
+                                trackingSubmodules: true
+                            ]
+                        ], 
+                        submoduleCfg: [], 
+                        userRemoteConfigs: [
+                            [
+                            credentialsId: 'git_user_ssh',
+                            url: "${GIT_REPO}"
+                            ]
+                        ]
+                    ]
+                    sh "ls -la" 
+                }
+            }
+        }
+    }
+}
