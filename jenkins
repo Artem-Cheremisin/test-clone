@@ -3,6 +3,7 @@ pipeline{
     agent{
         label "master"
     }
+    
     environment {
         deployment = 'b2b-sap-adapter'
     }
