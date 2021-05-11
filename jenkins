@@ -6,7 +6,7 @@ pipeline{
     environment {
         deployment = 'b2b-sap-adapter'
     }
-    
+    4
     stages{
         stage('Checkout configmaps repo') {
             steps {
